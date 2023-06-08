@@ -1,0 +1,49 @@
+@font-face {
+  font-family: 'SB Sans Text';
+  src: url('components/ui/fonts/SB Sans Text.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'SB Sans Interface';
+  src: url('components/ui/fonts/SB Sans Interface.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'SB Sans Interface Semibold';
+  src: url('components/ui/fonts/SB Sans Interface Semibold.ttf')
+    format('truetype');
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'SB Sans Interface';
+  font-size: 14px;
+  font-weight: 400;
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+  color: #333;
+}
+
+button {
+  border: none;
+  background-color: inherit;
+  color: #000;
+  cursor: pointer;
+}
+
+body {
+  background-color: #f1f3f4;
+}
+
+.content {
+  background-color: #fff;
+  margin: 50px auto;
+  max-width: 900px;
+  height: 700px;
+  border-radius: 12px 12px 0 0;
+}
