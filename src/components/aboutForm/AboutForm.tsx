@@ -51,7 +51,7 @@ const AboutForm = () => {
             placeholder="tim.jennings@example.com"
           />
         </div>
-        <Button id="button">Начать</Button>
+        <Button id="button-start">Начать</Button>
       </Form>
     </Formik>
   );
