@@ -11,6 +11,7 @@ interface ButtonProps {
 const Button = ({ id, variant, children }: ButtonProps) => {
   return (
     <button
+      type="submit"
       id={id}
       className={`${styles.root}${
         variant ? ` ${styles[variant]}` : ` ${styles.contained}`
