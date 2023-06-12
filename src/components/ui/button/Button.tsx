@@ -4,18 +4,20 @@ import styles from './Button.module.scss';
 
 interface ButtonProps {
   id: string;
+  type: 'button' | 'submit';
   children: React.ReactNode | string;
   variant?: 'contained' | 'outlined';
+  onClick?: () => void;
 }
 
-const Button = ({ id, variant, children }: ButtonProps) => {
+const Button = ({ id, variant, children, ...props }: ButtonProps) => {
   return (
     <button
-      type="submit"
       id={id}
       className={`${styles.root}${
         variant ? ` ${styles[variant]}` : ` ${styles.contained}`
       }`}
+      {...props}
     >
       {children}
     </button>

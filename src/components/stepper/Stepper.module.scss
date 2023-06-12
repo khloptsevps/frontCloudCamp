@@ -1,0 +1,78 @@
+.root {
+  position: relative;
+  max-width: 680px;
+  height: 8px;
+  // background: rgba(0, 0, 0, 0.08);
+  background: transparent;
+  border-radius: 8px;
+  margin-bottom: 67px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.point {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  border-radius: 100px;
+  background: #a6a6a6;
+}
+
+.pointOne {
+  left: 0px;
+}
+
+.active {
+  background: #5558fa;
+}
+
+.complete {
+  background: #5558fa;
+}
+
+.connectorColor {
+  display: block;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-color: #5558fa;
+}
+
+.connector {
+  top: calc(24px);
+  left: calc((-50% + 50px) - 8px);
+  right: calc((50% + 50px) - 8px);
+  position: absolute;
+}
+
+pointTwo {
+}
+
+pointTree {
+}
+
+.dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 3.2px;
+  height: 3.2px;
+  border-radius: 100px;
+  background: #ffffff;
+}
+
+.completeIcon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.label {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

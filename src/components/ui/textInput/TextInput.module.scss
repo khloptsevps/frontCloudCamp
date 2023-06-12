@@ -16,8 +16,20 @@
 }
 
 .feedback {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.error {
   margin-top: 5px;
   font-size: 12px;
   color: red;
   opacity: 0.8;
+}
+
+.counter {
+  margin: 8px 0;
+  font-size: 12px;
+  opacity: 0.6;
 }

@@ -11,7 +11,7 @@ const links = [
 
 const MainPage = () => {
   return (
-    <div className={styles.content}>
+    <div className={styles.root}>
       <div className={styles.top}>
         <div className={styles.info}>
           <div className={styles.avatar}>

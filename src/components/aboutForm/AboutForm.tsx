@@ -1,40 +1,41 @@
+import { useNavigate } from 'react-router-dom';
 import { Formik, Form } from 'formik';
-import * as Yup from 'yup';
 
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { aboutForm, selectAboutForm } from 'redux/formSlice/formSlice';
+
+import { aboutFormValidationSchema } from 'validation';
 import { PhoneInput, Button, TextInput } from 'components/ui';
+
+import formattedPhoneNumber from 'utils/formattedPhoneNumber';
+import { pageRoutes } from 'routes';
 
 import styles from './AboutForm.module.scss';
 
-const validationSchema = Yup.object({
-  phone: Yup.string()
-    .required('Обязательное поле')
-    .matches(
-      /[+7|8] \([0-9]{3}\) [0-9]{3}-[0-9]{2}-[0-9]{2}$/,
-      'Номер должен соответствовать формату +7 (999) 999-99-99',
-    ),
-  email: Yup.string()
-    .required('Обязательное поле')
-    .email('Введите корректный email, example@example.com'),
-});
-
 const AboutForm = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const data = useAppSelector(selectAboutForm);
+
   const initValues = {
-    phone: '',
-    email: '',
+    phone: data.phone ? formattedPhoneNumber(data.phone) : '',
+    email: data.email ? data.email : '',
   };
 
   return (
     <Formik
       initialValues={initValues}
-      validationSchema={validationSchema}
+      validationSchema={aboutFormValidationSchema}
       onSubmit={(values) => {
-        const phoneNumber = '8' + values.phone.replace(/\D/g, '').substring(1);
+        const phoneNumber = '+7' + values.phone.replace(/\D/g, '').substring(1);
         const formData = {
           email: values.email,
           phone: phoneNumber,
         };
         // TODO: доделать событие формы
         console.log(formData);
+        dispatch(aboutForm(formData));
+        navigate(pageRoutes.firstStep());
       }}
     >
       <Form>
@@ -51,7 +52,9 @@ const AboutForm = () => {
             placeholder="tim.jennings@example.com"
           />
         </div>
-        <Button id="button-start">Начать</Button>
+        <Button type="submit" id="button-start">
+          Начать
+        </Button>
       </Form>
     </Formik>
   );

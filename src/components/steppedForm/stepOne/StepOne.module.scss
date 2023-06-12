@@ -1,0 +1,11 @@
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+}
+
+.inputGroup {
+  margin-bottom: 88px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
