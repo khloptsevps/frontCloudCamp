@@ -5,10 +5,11 @@ import * as Yup from 'yup';
 import { StepOneForm } from 'components/steppedForm';
 import { Button } from 'components/ui';
 
-import styles from './FormPage.module.scss';
 import { Stepper } from 'components';
 import { useNavigate } from 'react-router-dom';
 import { pageRoutes } from 'routes';
+
+import styles from './FormPage.module.scss';
 
 const formValidation = Yup.object({
   nickname: Yup.string()
@@ -27,10 +28,12 @@ const formValidation = Yup.object({
 });
 
 interface initValuesProps {
-  nickname: string;
-  name: string;
-  sername: string;
-  sex: string;
+  stepOne: {
+    nickname: string;
+    name: string;
+    sername: string;
+    sex: string;
+  };
 }
 
 const FormPage = () => {
@@ -38,10 +41,12 @@ const FormPage = () => {
   const [step, setStep] = React.useState(1);
 
   const initValues: initValuesProps = {
-    nickname: '',
-    name: '',
-    sername: '',
-    sex: '',
+    stepOne: {
+      nickname: '',
+      name: '',
+      sername: '',
+      sex: '',
+    },
   };
 
   const formHandler = (v: initValuesProps) => {
