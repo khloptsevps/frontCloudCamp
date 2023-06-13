@@ -6,6 +6,7 @@ import { StepOneForm } from 'components/steppedForm';
 import { Button } from 'components/ui';
 
 import styles from './FormPage.module.scss';
+import { Stepper } from 'components';
 
 const formValidation = Yup.object({
   nickname: Yup.string()
@@ -40,7 +41,7 @@ const FormPage = () => {
     sex: '',
   };
 
-  const formHandler = (v) => {
+  const formHandler = (v: any) => {
     console.log('form');
     console.log(v);
   };
@@ -49,9 +50,11 @@ const FormPage = () => {
     console.log('back');
   };
 
-  const steps = [{ label: '1' }, { label: '2' }, { label: '3' }];
+  const steps = 3;
+
   return (
     <div className={styles.root}>
+      <Stepper steps={steps} activeStep={1} />
       <div className="form">
         <Formik
           initialValues={initValues}
