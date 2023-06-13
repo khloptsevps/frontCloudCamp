@@ -28,10 +28,19 @@ export const formSlice = createSlice({
       const newState = { ...state, aboutForm: { ...payload } };
       return newState;
     },
+    stepOneForm: (state, { payload }: PayloadAction<FormStepOne>) => {
+      const newState = { ...state, stepOne: { ...payload } };
+      return newState;
+    },
   },
 });
 
-export const { aboutForm } = formSlice.actions;
+export const { aboutForm, stepOneForm } = formSlice.actions;
+
 export const selectAboutForm = (state: RootState) =>
   state.formReducer.aboutForm;
+
+export const selectStepOneForm = (state: RootState) =>
+  state.formReducer.stepOne;
+
 export default formSlice.reducer;

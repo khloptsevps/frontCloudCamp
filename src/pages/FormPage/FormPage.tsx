@@ -1,13 +1,16 @@
 import React from 'react';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
+import { useNavigate } from 'react-router-dom';
 
-import { StepOneForm } from 'components/steppedForm';
+import { StepOneForm, StepTwoForm } from 'components/steppedForm';
 import { Button } from 'components/ui';
 
 import { Stepper } from 'components';
-import { useNavigate } from 'react-router-dom';
 import { pageRoutes } from 'routes';
+
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { stepOneForm, selectStepOneForm } from 'redux/formSlice/formSlice';
 
 import styles from './FormPage.module.scss';
 
@@ -36,24 +39,31 @@ interface initValuesProps {
 
 const FormPage = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const selectStepOneData = useAppSelector(selectStepOneForm);
+
+  console.log(selectStepOneData);
+
   const [step, setStep] = React.useState(1);
 
   const initValues: initValuesProps = {
-    nickname: '',
-    name: '',
-    sername: '',
-    sex: '',
+    ...selectStepOneData,
   };
 
-  const formHandler = (v: initValuesProps) => {
-    console.log(v);
+  const formHandler = (formData: initValuesProps) => {
+    console.log(formData);
     console.log('form');
-
+    console.log(step);
+    if (step === 1) {
+      console.log(step);
+      const { nickname, name, sername, sex } = formData;
+      dispatch(stepOneForm({ nickname, name, sername, sex }));
+    }
     setStep((prev) => {
       if (prev < 3) {
         return (prev += 1);
       }
-      console.log(prev);
       return prev;
     });
   };
@@ -80,7 +90,7 @@ const FormPage = () => {
         >
           <Form>
             {step === 1 && <StepOneForm />}
-            {step === 2 && <div>step 2</div>}
+            {step === 2 && <StepTwoForm />}
             {step === 3 && <div>step 3</div>}
             <div className={styles.buttons}>
               <Button

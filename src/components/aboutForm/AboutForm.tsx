@@ -19,7 +19,7 @@ const AboutForm = () => {
 
   const initValues = {
     phone: data.phone ? formattedPhoneNumber(data.phone) : '',
-    email: data.email ? data.email : '',
+    email: data.email,
   };
 
   return (
