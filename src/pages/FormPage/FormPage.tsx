@@ -8,6 +8,7 @@ import { Button } from 'components/ui';
 import styles from './FormPage.module.scss';
 import { Stepper } from 'components';
 import { useNavigate } from 'react-router-dom';
+import { pageRoutes } from 'routes';
 
 const formValidation = Yup.object({
   nickname: Yup.string()
@@ -59,7 +60,7 @@ const FormPage = () => {
   const backButtonHandler = () => {
     setStep((prev) => {
       if (prev === 1) {
-        navigate('/');
+        navigate(pageRoutes.main());
       }
       return (prev -= 1);
     });
