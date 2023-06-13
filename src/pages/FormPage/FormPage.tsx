@@ -82,14 +82,14 @@ const FormPage = () => {
             {step === 3 && <div>step 3</div>}
             <div className={styles.buttons}>
               <Button
-                id="back"
+                id="button-back"
                 type="button"
                 onClick={backButtonHandler}
                 variant="outlined"
               >
                 Назад
               </Button>
-              <Button id="next" type="submit">
+              <Button id="button-next" type="submit">
                 {step === 3 ? <span>Отправить</span> : <span>Вперед</span>}
               </Button>
             </div>
