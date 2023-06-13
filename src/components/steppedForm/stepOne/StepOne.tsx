@@ -4,13 +4,14 @@ import styles from './StepOne.module.scss';
 
 const StepOne = () => {
   enum Sex {
-    man,
-    woman,
+    man = 'man',
+    woman = 'woman',
   }
 
-  const keys = Object.values(Sex);
+  const options = Object.keys(Sex).map((key) => {
+    return { value: key, label: key };
+  });
 
-  console.log(keys);
   return (
     <>
       <div className={styles.inputGroup}>
@@ -38,6 +39,7 @@ const StepOne = () => {
           type="text"
           counter
         />
+        <SelectInput name="sex" options={options} />
       </div>
     </>
   );

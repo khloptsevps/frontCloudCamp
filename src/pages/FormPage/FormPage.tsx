@@ -24,16 +24,14 @@ const formValidation = Yup.object({
     .required('Обязательное поле')
     .max(50, 'Не больше 50-ти символов')
     .matches(/^[A-Za-z]*$/, 'Недопустимые символы'),
-  // sex: Yup.string().required('Обязательное поле'),
+  sex: Yup.string().required('Обязательное поле'),
 });
 
 interface initValuesProps {
-  stepOne: {
-    nickname: string;
-    name: string;
-    sername: string;
-    sex: string;
-  };
+  nickname: string;
+  name: string;
+  sername: string;
+  sex: string;
 }
 
 const FormPage = () => {
@@ -41,12 +39,10 @@ const FormPage = () => {
   const [step, setStep] = React.useState(1);
 
   const initValues: initValuesProps = {
-    stepOne: {
-      nickname: '',
-      name: '',
-      sername: '',
-      sex: '',
-    },
+    nickname: '',
+    name: '',
+    sername: '',
+    sex: '',
   };
 
   const formHandler = (v: initValuesProps) => {
