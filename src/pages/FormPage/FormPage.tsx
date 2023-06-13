@@ -7,6 +7,7 @@ import { Button } from 'components/ui';
 
 import styles from './FormPage.module.scss';
 import { Stepper } from 'components';
+import { useNavigate } from 'react-router-dom';
 
 const formValidation = Yup.object({
   nickname: Yup.string()
@@ -21,7 +22,7 @@ const formValidation = Yup.object({
     .required('Обязательное поле')
     .max(50, 'Не больше 50-ти символов')
     .matches(/^[A-Za-z]*$/, 'Недопустимые символы'),
-  sex: Yup.string().required('Обязательное поле'),
+  // sex: Yup.string().required('Обязательное поле'),
 });
 
 interface initValuesProps {
@@ -32,6 +33,7 @@ interface initValuesProps {
 }
 
 const FormPage = () => {
+  const navigate = useNavigate();
   const [step, setStep] = React.useState(1);
 
   const initValues: initValuesProps = {
@@ -41,20 +43,33 @@ const FormPage = () => {
     sex: '',
   };
 
-  const formHandler = (v: any) => {
-    console.log('form');
+  const formHandler = (v: initValuesProps) => {
     console.log(v);
+    console.log('form');
+
+    setStep((prev) => {
+      if (prev < 3) {
+        return (prev += 1);
+      }
+      console.log(prev);
+      return prev;
+    });
   };
 
   const backButtonHandler = () => {
-    console.log('back');
+    setStep((prev) => {
+      if (prev === 1) {
+        navigate('/');
+      }
+      return (prev -= 1);
+    });
   };
 
   const steps = 3;
 
   return (
     <div className={styles.root}>
-      <Stepper steps={steps} activeStep={1} />
+      <Stepper steps={steps} activeStep={step} />
       <div className="form">
         <Formik
           initialValues={initValues}
