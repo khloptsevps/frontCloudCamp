@@ -1,5 +1,4 @@
 import { useField } from 'formik';
-import React from 'react';
 
 import styles from './Checkbox.module.scss';
 
@@ -10,14 +9,13 @@ interface CheckboxProps {
 }
 
 const Checkbox = ({ id, label, ...props }: CheckboxProps) => {
-  const [field, meta] = useField({ ...props, type: 'checkbox' });
-
-  console.log(field);
+  const [field] = useField({ ...props, type: 'checkbox' });
 
   return (
     <div className={styles.root}>
       <label className={styles.label} htmlFor={id}>
         <input
+          id={id}
           className={field.checked ? styles.checked : ''}
           type="checkbox"
           {...field}
