@@ -1,0 +1,26 @@
+.root {
+}
+
+.advantages {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.checkboxes {
+  display: flex;
+  gap: 2px;
+  flex-direction: column;
+  margin-bottom: 24px;
+}
+
+.radios {
+  margin-bottom: 64px;
+}

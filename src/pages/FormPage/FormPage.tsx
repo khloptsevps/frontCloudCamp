@@ -10,7 +10,11 @@ import { Stepper } from 'components';
 import { pageRoutes } from 'routes';
 
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { stepOneForm, selectStepOneForm } from 'redux/formSlice/formSlice';
+import {
+  stepOneForm,
+  selectStepOneForm,
+  selectCheckboxes,
+} from 'redux/formSlice/formSlice';
 
 import styles from './FormPage.module.scss';
 
@@ -35,30 +39,51 @@ interface initValuesProps {
   name: string;
   sername: string;
   sex: string;
+  [key: string]: boolean | string | number;
 }
 
 const FormPage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const selectStepOneData = useAppSelector(selectStepOneForm);
-
-  console.log(selectStepOneData);
-
-  const [step, setStep] = React.useState(1);
+  const [step, setStep] = React.useState(2);
 
   const initValues: initValuesProps = {
-    ...selectStepOneData,
+    // step one
+    nickname: '',
+    name: '',
+    sername: '',
+    sex: '',
+    // step two
+    checkbox1: false,
+    checkbox2: false,
+    checkbox3: false,
+    radioOption: '',
   };
 
+  const radioGroup = [
+    { key: '1', value: '1' },
+    { key: '1', value: '1' },
+  ];
+
+  const checkboxes = [
+    { name: 'checkbox1', id: '1', label: 1 },
+    { name: 'checkbox2', id: '2', label: 2 },
+    { name: 'checkbox3', id: '3', label: 3 },
+  ];
+
   const formHandler = (formData: initValuesProps) => {
-    console.log(formData);
-    console.log('form');
-    console.log(step);
     if (step === 1) {
-      console.log(step);
       const { nickname, name, sername, sex } = formData;
       dispatch(stepOneForm({ nickname, name, sername, sex }));
+    }
+    if (step === 2) {
+      console.log('step 2');
+      console.log(formData);
+      const checkboxesValues = checkboxes
+        .filter((checkbox) => formData[checkbox.name])
+        .map((checkbox) => checkbox.label);
+      return;
     }
     setStep((prev) => {
       if (prev < 3) {
@@ -69,10 +94,11 @@ const FormPage = () => {
   };
 
   const backButtonHandler = () => {
+    if (step === 1) {
+      navigate(pageRoutes.main());
+      return;
+    }
     setStep((prev) => {
-      if (prev === 1) {
-        navigate(pageRoutes.main());
-      }
       return (prev -= 1);
     });
   };
@@ -90,7 +116,7 @@ const FormPage = () => {
         >
           <Form>
             {step === 1 && <StepOneForm />}
-            {step === 2 && <StepTwoForm />}
+            {step === 2 && <StepTwoForm checkboxes={checkboxes} />}
             {step === 3 && <div>step 3</div>}
             <div className={styles.buttons}>
               <Button

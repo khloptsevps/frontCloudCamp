@@ -9,3 +9,14 @@ export interface FormStepOne {
   sername: string;
   sex: string;
 }
+
+interface Field {
+  id: string;
+  fieldName: string;
+  name: string;
+  buttonId: string;
+}
+
+export interface FormStepTwo {
+  fields: Field[];
+}
