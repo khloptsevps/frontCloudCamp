@@ -1,7 +1,7 @@
-import React from 'react';
+import { Checkbox, RadioButton } from 'components/ui';
 
 import styles from './StepTwo.module.scss';
-import { Button, Checkbox } from 'components/ui';
+import { AdvantagesForm } from 'components';
 
 type Checkbox = {
   id: string;
@@ -9,27 +9,30 @@ type Checkbox = {
   name: string;
 };
 
+type Radio = {
+  id: string;
+  value: string;
+  name: string;
+};
+
 interface StepTwoProps {
   checkboxes: Checkbox[];
+  radioButtons: Radio[];
 }
 
-const StepTwo = ({ checkboxes }: StepTwoProps) => {
+const StepTwo = ({ checkboxes, radioButtons }: StepTwoProps) => {
   return (
     <div className={styles.root}>
       <div className={styles.advantages}>
         <h3>Advantages</h3>
-        <div className={styles.inputGroup}></div>
-        <div>
-          <Button id="button add" type="button" variant="outlined">
-            +
-          </Button>
-        </div>
+        <AdvantagesForm name="advantages" />
       </div>
       <div className={styles.checkboxGroup}>
         <h3>Checkbox group</h3>
         <div className={styles.checkboxes}>
           {checkboxes?.map(({ id, label, name }) => (
             <Checkbox
+              key={id}
               id={`field-checkbox-group-option-${id}`}
               name={name}
               label={label}
@@ -39,6 +42,16 @@ const StepTwo = ({ checkboxes }: StepTwoProps) => {
       </div>
       <div className={styles.radios}>
         <h3>Radio group</h3>
+        <div className={styles.radioButtons}>
+          {radioButtons?.map(({ id, value, name }) => (
+            <RadioButton
+              key={id}
+              name={name}
+              id={`field-radio-group-option-${id}`}
+              value={value}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
