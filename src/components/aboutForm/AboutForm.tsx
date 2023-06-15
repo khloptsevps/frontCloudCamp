@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { aboutForm, selectAboutForm } from 'redux/formSlice/formSlice';
+import { aboutForm, selectForm } from 'redux/formSlice/formSlice';
 
 import { aboutFormValidationSchema } from 'validation';
 import { PhoneInput, Button, TextInput } from 'components/ui';
@@ -15,7 +15,7 @@ import styles from './AboutForm.module.scss';
 const AboutForm = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const data = useAppSelector(selectAboutForm);
+  const data = useAppSelector(selectForm);
 
   const initValues = {
     phone: data.phone ? formattedPhoneNumber(data.phone) : '',
@@ -27,13 +27,11 @@ const AboutForm = () => {
       initialValues={initValues}
       validationSchema={aboutFormValidationSchema}
       onSubmit={(values) => {
-        const phoneNumber = '+7' + values.phone.replace(/\D/g, '').substring(1);
+        const phoneNumber = '7' + values.phone.replace(/\D/g, '').substring(1);
         const formData = {
           email: values.email,
           phone: phoneNumber,
         };
-        // TODO: доделать событие формы
-        console.log(formData);
         dispatch(aboutForm(formData));
         navigate(pageRoutes.firstStep());
       }}
