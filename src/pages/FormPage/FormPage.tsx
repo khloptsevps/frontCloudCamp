@@ -3,11 +3,19 @@ import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 
-import { StepOneForm, StepTwoForm } from 'components/steppedForm';
-import { Button } from 'components/ui';
+import { Checkbox } from '@types';
+
+import { pageRoutes } from 'routes';
 
 import { Stepper } from 'components';
-import { pageRoutes } from 'routes';
+
+import {
+  StepOneForm,
+  StepTwoForm,
+  StepThreeForm,
+} from 'components/steppedForm';
+
+import { Button } from 'components/ui';
 
 import { useAppDispatch } from 'redux/hooks';
 import { stepOneForm } from 'redux/formSlice/formSlice';
@@ -28,7 +36,10 @@ const formValidation = Yup.object({
     .max(50, 'Не больше 50-ти символов')
     .matches(/^[A-Za-z]*$/, 'Недопустимые символы'),
   sex: Yup.string().required('Обязательное поле'),
+  aboutField: Yup.string().max(250, 'Не больше 250-ти символов'),
 });
+
+// TODO: доделать валидацию
 
 interface InitValuesProps {
   nickname: string;
@@ -37,14 +48,15 @@ interface InitValuesProps {
   sex: string;
   radioOption: string;
   advantages: string[];
-  [key: string]: boolean | string | number | string[];
+  checkboxes: Checkbox[];
+  aboutField: string;
 }
 
 const FormPage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const [step, setStep] = React.useState(3);
+  const [step, setStep] = React.useState(1);
 
   const initValues: InitValuesProps = {
     // step one
@@ -54,10 +66,14 @@ const FormPage = () => {
     sex: '',
     // step two
     advantages: ['', '', ''],
-    checkbox1: false,
-    checkbox2: false,
-    checkbox3: false,
+    checkboxes: [
+      { key: 'check1', checked: false, value: 1 },
+      { key: 'check2', checked: false, value: 2 },
+      { key: 'check3', checked: false, value: 3 },
+    ],
     radioOption: '',
+    // step three
+    aboutField: '',
   };
 
   const radioButtons = [
@@ -65,26 +81,18 @@ const FormPage = () => {
     { id: '2', value: '2', name: 'radioOption' },
   ];
 
-  const checkboxes = [
-    { name: 'checkbox1', id: '1', label: 1 },
-    { name: 'checkbox2', id: '2', label: 2 },
-    { name: 'checkbox3', id: '3', label: 3 },
-  ];
-
+  // TODO: Сделать через свич?
   const formHandler = (formData: InitValuesProps) => {
     if (step === 1) {
       const { nickname, name, sername, sex } = formData;
       dispatch(stepOneForm({ nickname, name, sername, sex }));
     }
     if (step === 2) {
-      console.log('step 2');
       console.log(formData);
-      const checkboxesValues = checkboxes
-        .filter((checkbox) => formData[checkbox.name])
-        .map((checkbox) => checkbox.label);
-      const radioValue = Number(formData.radioOption);
-      console.log(radioValue);
       return;
+    }
+    if (step === 3) {
+      console.log(formData);
     }
     setStep((prev) => {
       if (prev < 3) {
@@ -117,13 +125,8 @@ const FormPage = () => {
         >
           <Form>
             {step === 1 && <StepOneForm />}
-            {step === 2 && (
-              <StepTwoForm
-                checkboxes={checkboxes}
-                radioButtons={radioButtons}
-              />
-            )}
-            {step === 3 && <div>step 3</div>}
+            {step === 2 && <StepTwoForm radioButtons={radioButtons} />}
+            {step === 3 && <StepThreeForm />}
             <div className={styles.buttons}>
               <Button
                 id="button-back"
