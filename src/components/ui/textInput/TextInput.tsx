@@ -13,6 +13,7 @@ interface TextInputProps {
 
 const TextInput = ({ label, counter, ...props }: TextInputProps) => {
   const [field, meta] = useField(props);
+
   return (
     <div className={styles.root}>
       {label && (
@@ -20,8 +21,16 @@ const TextInput = ({ label, counter, ...props }: TextInputProps) => {
           {label}
         </label>
       )}
-      <input {...field} {...props} className={styles.input} />
-      <div className={styles.feedback}>
+      {props.type === 'textarea' ? (
+        <textarea {...field} {...props} className={styles.textarea} />
+      ) : (
+        <input {...field} {...props} className={styles.input} />
+      )}
+      <div
+        className={
+          props.type === 'textarea' ? styles.feedbackTextarea : styles.feedback
+        }
+      >
         {counter && field.value.length > 0 && (
           <span className={styles.counter}>{field.value.length}</span>
         )}

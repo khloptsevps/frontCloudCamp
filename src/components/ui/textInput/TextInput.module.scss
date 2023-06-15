@@ -12,6 +12,17 @@
   border-radius: 4px;
 }
 
+.textarea {
+  min-height: 84px;
+  height: 100%;
+  max-width: 680px;
+  width: 680px;
+  padding: 12px;
+
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+}
+
 .label {
   margin-bottom: 8px;
 }
@@ -20,6 +31,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.feedbackTextarea {
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 .error {
