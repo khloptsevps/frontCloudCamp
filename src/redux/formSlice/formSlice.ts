@@ -4,14 +4,9 @@ import {
   FormStepOne,
   FormStepTwo,
   FormStepThree,
-  FormDataFields,
+  FormState,
 } from '@types';
 import { RootState } from 'redux/store';
-
-interface FormState extends FormDataFields {
-  phone: string;
-  email: string;
-}
 
 const initialState: FormState = {
   phone: '',
