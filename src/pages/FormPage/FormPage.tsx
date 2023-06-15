@@ -1,11 +1,11 @@
 import React from 'react';
-import { Form, Formik } from 'formik';
+import { Form, Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 
 import { FormDataFields } from '@types';
 
-import { pageRoutes } from 'routes';
+import { APIRoutes, pageRoutes } from 'routes';
 
 import { Stepper } from 'components';
 
@@ -17,14 +17,18 @@ import {
 
 import { Button } from 'components/ui';
 
-import { useAppDispatch } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   stepOneForm,
   stepTwoForm,
   stepThreeForm,
+  selectForm,
 } from 'redux/formSlice/formSlice';
 
+import { prepareFormData } from 'utils';
+
 import styles from './FormPage.module.scss';
+import axios from 'axios';
 
 const formValidation = Yup.object({
   nickname: Yup.string()
@@ -48,6 +52,8 @@ const formValidation = Yup.object({
 const FormPage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
+  const selectedFormData = useAppSelector(selectForm);
 
   const [step, setStep] = React.useState(1);
 
@@ -76,7 +82,10 @@ const FormPage = () => {
   ];
 
   // TODO: Сделать через свич?
-  const formHandler = (formData: FormDataFields) => {
+  const formHandler = async (
+    formData: FormDataFields,
+    actions: FormikHelpers<FormDataFields>,
+  ) => {
     if (step === 1) {
       const { nickname, name, sername, sex } = formData;
       dispatch(stepOneForm({ nickname, name, sername, sex }));
@@ -88,7 +97,16 @@ const FormPage = () => {
     if (step === 3) {
       const { aboutField } = formData;
       dispatch(stepThreeForm({ aboutField }));
-      console.log(formData);
+      const { phone, email } = selectedFormData;
+      const data = prepareFormData({ phone, email, ...formData });
+      try {
+        const response = await axios.post(APIRoutes.main(), data);
+        console.log(response);
+        actions.setSubmitting(false);
+        actions.resetForm;
+      } catch (error) {
+        console.log(error);
+      }
       return;
     }
     setStep((prev) => {
