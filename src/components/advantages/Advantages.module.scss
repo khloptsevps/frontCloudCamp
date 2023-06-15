@@ -1,5 +1,6 @@
 .root {
-  position: relative;
+  display: flex;
+  gap: 16px;
 }
 
 .group {
@@ -9,8 +10,4 @@
 }
 
 .deleteButotn {
-  position: absolute;
-  top: 50%;
-  right: -40px;
-  transform: translateY(-50%);
 }
