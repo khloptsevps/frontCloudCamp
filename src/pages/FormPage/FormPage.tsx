@@ -44,7 +44,7 @@ const FormPage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const [step, setStep] = React.useState(2);
+  const [step, setStep] = React.useState(3);
 
   const initValues: InitValuesProps = {
     // step one
@@ -70,8 +70,6 @@ const FormPage = () => {
     { name: 'checkbox2', id: '2', label: 2 },
     { name: 'checkbox3', id: '3', label: 3 },
   ];
-
-  const advantages = [];
 
   const formHandler = (formData: InitValuesProps) => {
     if (step === 1) {
@@ -135,7 +133,10 @@ const FormPage = () => {
               >
                 Назад
               </Button>
-              <Button id="button-next" type="submit">
+              <Button
+                id={step === 3 ? '"button-send"' : '"button-next"'}
+                type="submit"
+              >
                 {step === 3 ? <span>Отправить</span> : <span>Вперед</span>}
               </Button>
             </div>
