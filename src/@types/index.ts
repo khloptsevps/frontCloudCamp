@@ -1,3 +1,19 @@
+export type FormDataFields = {
+  nickname: string;
+  name: string;
+  sername: string;
+  sex: string;
+  radioOption: string;
+  advantages: string[];
+  checkboxes: Checkbox[];
+  aboutField: string;
+};
+
+export type Checkbox = {
+  key: string;
+  checked: boolean;
+  value: number;
+};
 export interface AboutForm {
   phone: string;
   email: string;
@@ -10,19 +26,13 @@ export interface FormStepOne {
   sex: string;
 }
 
-interface Field {
-  id: string;
-  fieldName: string;
-  name: string;
-  buttonId: string;
-}
+export type FormStepOnee = Pick<
+  FormDataFields,
+  'nickname' | 'name' | 'sername' | 'sex'
+>;
 
-export interface FormStepTwo {
-  fields: Field[];
-}
-
-export type Checkbox = {
-  key: string;
-  checked: boolean;
-  value: number;
-};
+export type FormStepTwo = Pick<
+  FormDataFields,
+  'advantages' | 'checkboxes' | 'radioOption'
+>;
+export type FormStepThree = Pick<FormDataFields, 'aboutField'>;
