@@ -1,5 +1,4 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import uniqueId from 'lodash.uniqueid';
 import { AboutForm, FormStepOne, FormStepTwo } from '@types';
 import { RootState } from 'redux/store';
 
@@ -14,18 +13,6 @@ interface FormState {
   stepOne?: FormStepOne;
   stepTwo?: FormStepTwo;
 }
-
-const generateArray = (length: number) =>
-  [...new Array(length)].map(() => {
-    const id = uniqueId();
-    const item = {
-      id,
-      fieldName: `field-advatages-${id}`,
-      name: `field-advatages-${id}`,
-      buttonId: `button-remove-${id}`,
-    };
-    return item;
-  });
 
 const initialState: FormState = {
   phone: '',
