@@ -3,7 +3,7 @@ import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 
-import { Checkbox } from '@types';
+import { FormDataFields } from '@types';
 
 import { pageRoutes } from 'routes';
 
@@ -18,7 +18,11 @@ import {
 import { Button } from 'components/ui';
 
 import { useAppDispatch } from 'redux/hooks';
-import { stepOneForm } from 'redux/formSlice/formSlice';
+import {
+  stepOneForm,
+  stepTwoForm,
+  stepThreeForm,
+} from 'redux/formSlice/formSlice';
 
 import styles from './FormPage.module.scss';
 
@@ -41,24 +45,13 @@ const formValidation = Yup.object({
 
 // TODO: доделать валидацию
 
-interface InitValuesProps {
-  nickname: string;
-  name: string;
-  sername: string;
-  sex: string;
-  radioOption: string;
-  advantages: string[];
-  checkboxes: Checkbox[];
-  aboutField: string;
-}
-
 const FormPage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const [step, setStep] = React.useState(1);
 
-  const initValues: InitValuesProps = {
+  const initValues: FormDataFields = {
     // step one
     nickname: '',
     name: '',
@@ -79,20 +72,24 @@ const FormPage = () => {
   const radioButtons = [
     { id: '1', value: '1', name: 'radioOption' },
     { id: '2', value: '2', name: 'radioOption' },
+    { id: '3', value: '3', name: 'radioOption' },
   ];
 
   // TODO: Сделать через свич?
-  const formHandler = (formData: InitValuesProps) => {
+  const formHandler = (formData: FormDataFields) => {
     if (step === 1) {
       const { nickname, name, sername, sex } = formData;
       dispatch(stepOneForm({ nickname, name, sername, sex }));
     }
     if (step === 2) {
-      console.log(formData);
-      return;
+      const { advantages, checkboxes, radioOption } = formData;
+      dispatch(stepTwoForm({ advantages, checkboxes, radioOption }));
     }
     if (step === 3) {
+      const { aboutField } = formData;
+      dispatch(stepThreeForm({ aboutField }));
       console.log(formData);
+      return;
     }
     setStep((prev) => {
       if (prev < 3) {
