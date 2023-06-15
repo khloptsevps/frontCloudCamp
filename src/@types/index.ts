@@ -20,3 +20,9 @@ interface Field {
 export interface FormStepTwo {
   fields: Field[];
 }
+
+export type Checkbox = {
+  key: string;
+  checked: boolean;
+  value: number;
+};
