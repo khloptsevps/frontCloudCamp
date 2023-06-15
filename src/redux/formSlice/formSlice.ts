@@ -1,17 +1,16 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { AboutForm, FormStepOne, FormStepTwo } from '@types';
+import {
+  AboutForm,
+  FormStepOne,
+  FormStepTwo,
+  FormStepThree,
+  FormDataFields,
+} from '@types';
 import { RootState } from 'redux/store';
 
-interface FormState {
+interface FormState extends FormDataFields {
   phone: string;
   email: string;
-  nickname: string;
-  name: string;
-  sername: string;
-  sex: string;
-  checkbox?: number[];
-  stepOne?: FormStepOne;
-  stepTwo?: FormStepTwo;
 }
 
 const initialState: FormState = {
@@ -21,7 +20,10 @@ const initialState: FormState = {
   name: '',
   sername: '',
   sex: '',
-  checkbox: [],
+  advantages: [],
+  checkboxes: [],
+  radioOption: '',
+  aboutField: '',
 };
 
 export const formSlice = createSlice({
@@ -36,20 +38,20 @@ export const formSlice = createSlice({
       const newState = { ...state, ...payload };
       return newState;
     },
+    stepTwoForm: (state, { payload }: PayloadAction<FormStepTwo>) => {
+      const newState = { ...state, ...payload };
+      return newState;
+    },
+    stepThreeForm: (state, { payload }: PayloadAction<FormStepThree>) => {
+      const newState = { ...state, ...payload };
+      return newState;
+    },
   },
 });
 
-export const { aboutForm, stepOneForm } = formSlice.actions;
+export const { aboutForm, stepOneForm, stepTwoForm, stepThreeForm } =
+  formSlice.actions;
 
-export const selectAboutForm = (state: RootState) => state.formReducer;
-
-export const selectStepOneForm = (state: RootState) =>
-  state.formReducer.stepOne;
-
-export const selectStepTwoFrom = (state: RootState) =>
-  state.formReducer.stepTwo;
-
-export const selectCheckboxes = (state: RootState) =>
-  state.formReducer.checkbox;
+export const selectForm = (state: RootState) => state.formReducer;
 
 export default formSlice.reducer;
