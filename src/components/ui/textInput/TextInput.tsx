@@ -15,7 +15,11 @@ const TextInput = ({ label, counter, ...props }: TextInputProps) => {
   const [field, meta] = useField(props);
 
   return (
-    <div className={styles.root}>
+    <div
+      className={
+        props.type === 'textarea' ? styles.textareaWrapper : styles.root
+      }
+    >
       {label && (
         <label htmlFor={props.id || props.name} className={styles.label}>
           {label}

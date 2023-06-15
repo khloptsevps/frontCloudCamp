@@ -6,6 +6,11 @@
   margin-left: -166px;
   margin-right: -158px;
   position: sticky;
+
+  @media screen and (max-width: 550px) {
+    margin-left: -60px;
+    margin-right: -60px;
+  }
 }
 
 .label {

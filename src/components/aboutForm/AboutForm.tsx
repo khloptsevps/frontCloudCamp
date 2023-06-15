@@ -43,12 +43,14 @@ const AboutForm = () => {
             name="phone"
             placeholder="+7 999 999-99-99"
           />
-          <TextInput
-            label="Email"
-            name="email"
-            type="email"
-            placeholder="tim.jennings@example.com"
-          />
+          <div className={styles.email}>
+            <TextInput
+              label="Email"
+              name="email"
+              type="email"
+              placeholder="tim.jennings@example.com"
+            />
+          </div>
         </div>
         <Button type="submit" id="button-start">
           Начать

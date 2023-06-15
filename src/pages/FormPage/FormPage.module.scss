@@ -1,5 +1,9 @@
 .root {
   padding: 62px 110px 80px;
+
+  @media screen and (max-width: 550px) {
+    padding: 62px 50px 80px;
+  }
 }
 
 .buttons {
