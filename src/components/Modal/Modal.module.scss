@@ -1,0 +1,37 @@
+.root {
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease-in;
+}
+
+.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.content {
+  position: relative;
+  padding: 32px;
+  border-radius: 12px;
+  background-color: #fff;
+  width: 460px;
+  transform: translateY(-100%);
+  transition: 0.4s all;
+  @media screen and (max-width: 550px) {
+    width: 300px;
+  }
+}
+
+.contentActive {
+  transform: translateY(0);
+}
