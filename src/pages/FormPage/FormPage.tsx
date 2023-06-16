@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router-dom';
 
 import { FormDataFields } from '@types';
 
-import { APIRoutes, pageRoutes } from 'routes';
+import { pageRoutes } from 'routes';
 
-import { Stepper } from 'components';
+import { Modal, Stepper } from 'components';
 
 import {
   StepOneForm,
@@ -25,11 +25,15 @@ import {
   selectForm,
   setAllFieldValues,
 } from 'redux/formSlice/formSlice';
+import {
+  selectModal,
+  openModal,
+  closeModal,
+} from 'redux/modalSlice/modalSlice';
 
 import { prepareFormData } from 'utils';
 
 import styles from './FormPage.module.scss';
-import axios from 'axios';
 
 const formValidation = Yup.object({
   nickname: Yup.string()
@@ -75,6 +79,8 @@ const FormPage = () => {
     aboutField,
   } = useAppSelector(selectForm);
 
+  const { type, isOpened } = useAppSelector(selectModal);
+
   const initAdvantages = advantages.length > 0 ? advantages : ['', '', ''];
   const initCheckboxes =
     checkboxes.length > 0
@@ -107,6 +113,14 @@ const FormPage = () => {
     { id: '3', value: '3', name: 'radioOption' },
   ];
 
+  const modalCloseHandler = () => {
+    dispatch(closeModal());
+  };
+
+  const modalOpenHandler = () => {
+    dispatch(openModal({ type: 'error' }));
+  };
+
   // TODO: Сделать через свич?
   const formHandler = async (
     formData: FormDataFields,
@@ -124,14 +138,10 @@ const FormPage = () => {
       const { aboutField } = formData;
       dispatch(stepThreeForm({ aboutField }));
       const data = prepareFormData({ phone, email, ...formData });
-      try {
-        const response = await axios.post(APIRoutes.main(), data);
-        console.log(response);
-        actions.setSubmitting(false);
-        actions.resetForm;
-      } catch (error) {
-        console.log(error);
-      }
+      console.log(data);
+      modalOpenHandler();
+      actions.setSubmitting(false);
+
       return;
     }
     setStep((prev) => {
@@ -158,9 +168,9 @@ const FormPage = () => {
   return (
     <div className={styles.root}>
       <Stepper steps={steps} activeStep={step} />
+      <Modal isOpen={isOpened} type={type} onClose={modalCloseHandler} />
       <div className="form">
         <Formik
-          enableReinitialize
           initialValues={initValues}
           onSubmit={formHandler}
           validationSchema={formValidation}
