@@ -4,9 +4,13 @@ import { Folder } from 'components/ui/icons';
 import { AboutForm } from 'components';
 
 const links = [
-  { name: 'Telegram', url: '#', id: 1 },
-  { name: 'GitHub', url: '#', id: 2 },
-  { name: 'Resume', url: '#', id: 3 },
+  { name: 'Telegram', url: 'https://telegram.me/khloptsevps', id: 1 },
+  { name: 'GitHub', url: 'https://github.com/khloptsevps', id: 2 },
+  {
+    name: 'Resume',
+    url: 'https://khabarovsk.hh.ru/resume/804dd760ff0bab50810039ed1f77354b757337',
+    id: 3,
+  },
 ];
 
 const MainPage = () => {
@@ -23,7 +27,9 @@ const MainPage = () => {
               {links.map((link) => (
                 <li key={link.id}>
                   <Folder />
-                  <a href={link.url}>{link.name}</a>
+                  <a href={link.url} target="_blank">
+                    {link.name}
+                  </a>
                 </li>
               ))}
             </ul>

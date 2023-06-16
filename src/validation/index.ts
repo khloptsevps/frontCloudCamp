@@ -1,1 +1,0 @@
-export { aboutFormValidationSchema } from './aboutFormValidation';

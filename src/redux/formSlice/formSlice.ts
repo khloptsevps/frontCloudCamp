@@ -8,6 +8,13 @@ import {
 } from '@types';
 import { RootState } from 'redux/store';
 
+interface State extends FormState {
+  form: {
+    status: 'filling' | 'sending';
+    error: '';
+  };
+}
+
 const initialState: FormState = {
   phone: '',
   email: '',

@@ -6,6 +6,7 @@ interface PhoneInputProps {
   label: string;
   name: string;
   placeholder: string;
+  disabled?: boolean;
 }
 
 const PhoneInput = ({ label, ...props }: PhoneInputProps) => {

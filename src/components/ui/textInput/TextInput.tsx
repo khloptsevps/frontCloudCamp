@@ -5,6 +5,7 @@ interface TextInputProps {
   name: string;
   placeholder: string;
   type: 'email' | 'text' | 'textarea';
+  disabled?: boolean;
   counter?: boolean;
   id?: string;
   label?: string;

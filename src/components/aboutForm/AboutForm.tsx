@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
 
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { aboutForm, selectForm } from 'redux/formSlice/formSlice';
+import { useAppDispatch } from 'redux/hooks';
+import { aboutForm } from 'redux/formSlice/formSlice';
 
-import { aboutFormValidationSchema } from 'validation';
 import { PhoneInput, Button, TextInput } from 'components/ui';
 
 import formattedPhoneNumber from 'utils/formattedPhoneNumber';
@@ -12,20 +12,31 @@ import { pageRoutes } from 'routes';
 
 import styles from './AboutForm.module.scss';
 
+const validationSchema = Yup.object({
+  phone: Yup.string()
+    .required('Обязательное поле')
+    .matches(
+      /[+7|8] \([0-9]{3}\) [0-9]{3}-[0-9]{2}-[0-9]{2}$/,
+      'Номер должен соответствовать формату +7 (999) 999-99-99',
+    ),
+  email: Yup.string()
+    .required('Обязательное поле')
+    .email('Введите корректный email, example@example.com'),
+});
+
 const AboutForm = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const data = useAppSelector(selectForm);
 
   const initValues = {
-    phone: data.phone ? formattedPhoneNumber(data.phone) : '',
-    email: data.email,
+    phone: formattedPhoneNumber('79243166651'),
+    email: 'p.khloptsev@gmail.com',
   };
 
   return (
     <Formik
       initialValues={initValues}
-      validationSchema={aboutFormValidationSchema}
+      validationSchema={validationSchema}
       onSubmit={(values) => {
         const phoneNumber = '7' + values.phone.replace(/\D/g, '').substring(1);
         const formData = {
@@ -42,15 +53,16 @@ const AboutForm = () => {
             label="Номер телефона"
             name="phone"
             placeholder="+7 999 999-99-99"
+            disabled
           />
-          <div className={styles.email}>
-            <TextInput
-              label="Email"
-              name="email"
-              type="email"
-              placeholder="tim.jennings@example.com"
-            />
-          </div>
+
+          <TextInput
+            label="Email"
+            name="email"
+            type="email"
+            placeholder="tim.jennings@example.com"
+            disabled
+          />
         </div>
         <Button type="submit" id="button-start">
           Начать
