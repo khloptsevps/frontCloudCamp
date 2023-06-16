@@ -23,6 +23,7 @@ import {
   stepTwoForm,
   stepThreeForm,
   selectForm,
+  setAllFieldValues,
 } from 'redux/formSlice/formSlice';
 
 import { prepareFormData } from 'utils';
@@ -61,26 +62,43 @@ const FormPage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const selectedFormData = useAppSelector(selectForm);
+  const {
+    phone,
+    email,
+    nickname,
+    name,
+    sername,
+    sex,
+    advantages,
+    checkboxes,
+    radioOption,
+    aboutField,
+  } = useAppSelector(selectForm);
+
+  const initAdvantages = advantages.length > 0 ? advantages : ['', '', ''];
+  const initCheckboxes =
+    checkboxes.length > 0
+      ? checkboxes
+      : [
+          { key: 'check1', checked: false, value: 1 },
+          { key: 'check2', checked: false, value: 2 },
+          { key: 'check3', checked: false, value: 3 },
+        ];
 
   const [step, setStep] = React.useState(1);
 
   const initValues: FormDataFields = {
     // step one
-    nickname: '',
-    name: '',
-    sername: '',
-    sex: '',
+    nickname: nickname || '',
+    name: name || '',
+    sername: sername || '',
+    sex: sex || '',
     // step two
-    advantages: ['', '', ''],
-    checkboxes: [
-      { key: 'check1', checked: false, value: 1 },
-      { key: 'check2', checked: false, value: 2 },
-      { key: 'check3', checked: false, value: 3 },
-    ],
-    radioOption: '',
+    advantages: initAdvantages,
+    checkboxes: initCheckboxes,
+    radioOption: radioOption || '',
     // step three
-    aboutField: '',
+    aboutField: aboutField || '',
   };
 
   const radioButtons = [
@@ -105,7 +123,6 @@ const FormPage = () => {
     if (step === 3) {
       const { aboutField } = formData;
       dispatch(stepThreeForm({ aboutField }));
-      const { phone, email } = selectedFormData;
       const data = prepareFormData({ phone, email, ...formData });
       try {
         const response = await axios.post(APIRoutes.main(), data);
@@ -125,8 +142,9 @@ const FormPage = () => {
     });
   };
 
-  const backButtonHandler = () => {
+  const backButtonHandler = (fields: FormDataFields) => () => {
     if (step === 1) {
+      dispatch(setAllFieldValues(fields));
       navigate(pageRoutes.main());
       return;
     }
@@ -142,31 +160,36 @@ const FormPage = () => {
       <Stepper steps={steps} activeStep={step} />
       <div className="form">
         <Formik
+          enableReinitialize
           initialValues={initValues}
           onSubmit={formHandler}
           validationSchema={formValidation}
         >
-          <Form>
-            {step === 1 && <StepOneForm />}
-            {step === 2 && <StepTwoForm radioButtons={radioButtons} />}
-            {step === 3 && <StepThreeForm />}
-            <div className={styles.buttons}>
-              <Button
-                id="button-back"
-                type="button"
-                onClick={backButtonHandler}
-                variant="outlined"
-              >
-                Назад
-              </Button>
-              <Button
-                id={step === 3 ? '"button-send"' : '"button-next"'}
-                type="submit"
-              >
-                {step === 3 ? <span>Отправить</span> : <span>Вперед</span>}
-              </Button>
-            </div>
-          </Form>
+          {({ values }) => {
+            return (
+              <Form>
+                {step === 1 && <StepOneForm />}
+                {step === 2 && <StepTwoForm radioButtons={radioButtons} />}
+                {step === 3 && <StepThreeForm />}
+                <div className={styles.buttons}>
+                  <Button
+                    id="button-back"
+                    type="button"
+                    onClick={backButtonHandler(values)}
+                    variant="outlined"
+                  >
+                    Назад
+                  </Button>
+                  <Button
+                    id={step === 3 ? '"button-send"' : '"button-next"'}
+                    type="submit"
+                  >
+                    {step === 3 ? <span>Отправить</span> : <span>Вперед</span>}
+                  </Button>
+                </div>
+              </Form>
+            );
+          }}
         </Formik>
       </div>
     </div>
