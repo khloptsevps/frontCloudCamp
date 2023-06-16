@@ -12,7 +12,7 @@ interface TextInputProps {
   children?: React.ReactNode;
 }
 
-const TextInput = ({ label, counter, ...props }: TextInputProps) => {
+const TextInput = ({ label, counter, children, ...props }: TextInputProps) => {
   const [field, meta] = useField(props);
 
   return (
@@ -43,6 +43,7 @@ const TextInput = ({ label, counter, ...props }: TextInputProps) => {
           <span className={styles.error}>{meta.error}</span>
         ) : null}
       </div>
+      {children}
     </div>
   );
 };

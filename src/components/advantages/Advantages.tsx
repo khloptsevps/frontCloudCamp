@@ -27,13 +27,14 @@ const Advantages = ({ name }: AdvantagesProps) => {
                     id={`field-advantages-${index}`}
                     type="text"
                     placeholder="Paceholder"
-                  />
-                  <button
-                    className={styles.deleteButotn}
-                    onClick={() => remove(index)}
                   >
-                    {<DeleteButtonIcon />}
-                  </button>
+                    <button
+                      className={styles.deleteButotn}
+                      onClick={() => remove(index)}
+                    >
+                      {<DeleteButtonIcon />}
+                    </button>
+                  </TextInput>
                 </div>
               );
             })}
