@@ -1,7 +1,7 @@
 import { FieldArray } from 'formik';
 
 import { Button, TextInput } from 'components/ui';
-import DeleteButtonIcon from 'assets/DeleteButtonIcon';
+import { DeleteButtonIcon } from 'components/icons';
 
 import styles from './Advantages.module.scss';
 

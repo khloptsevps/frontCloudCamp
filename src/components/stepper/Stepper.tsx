@@ -1,4 +1,4 @@
-import CompleteStepIcon from 'assets/CompleteStepIcon';
+import { CompleteStepIcon } from 'components/icons';
 
 import styles from './Stepper.module.scss';
 interface StepperProps {
