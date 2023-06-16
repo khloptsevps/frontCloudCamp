@@ -21,7 +21,11 @@ const validationSchema = Yup.object({
     ),
   email: Yup.string()
     .required('Обязательное поле')
-    .email('Введите корректный email, example@example.com'),
+    // .email('Введите корректный email, example@example.com'),
+    .matches(
+      /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
+      'Введите корректный email, example@example.com',
+    ),
 });
 
 const AboutForm = () => {
