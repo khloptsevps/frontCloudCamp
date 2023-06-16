@@ -12,6 +12,7 @@ import { RootState } from 'redux/store';
 interface State extends FormState {
   form: {
     status: 'filling' | 'sending';
+    massage: '';
     error: '';
   };
 }
@@ -19,6 +20,7 @@ interface State extends FormState {
 const initialState: State = {
   form: {
     status: 'filling',
+    massage: '',
     error: '',
   },
   phone: '',
