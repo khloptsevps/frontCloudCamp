@@ -11,7 +11,7 @@ import { RootState } from 'redux/store';
 
 interface State extends FormState {
   form: {
-    status: 'filling' | 'sending';
+    status: 'filling' | 'sending' | 'success' | 'error';
     massage: '';
     error: '';
   };
