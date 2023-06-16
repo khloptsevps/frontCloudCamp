@@ -36,9 +36,15 @@ const TextInput = ({ label, counter, children, ...props }: TextInputProps) => {
           props.type === 'textarea' ? styles.feedbackTextarea : styles.feedback
         }
       >
-        {counter && field.value.length > 0 && (
-          <span className={styles.counter}>{field.value.length}</span>
-        )}
+        {counter &&
+          field.value.length > 0 &&
+          (props.type === 'textarea' ? (
+            <span className={styles.counter}>
+              {field.value.replace(/ /g, '').length}
+            </span>
+          ) : (
+            <span className={styles.counter}>{field.value.length}</span>
+          ))}
         {meta.touched && meta.error ? (
           <span className={styles.error}>{meta.error}</span>
         ) : null}
