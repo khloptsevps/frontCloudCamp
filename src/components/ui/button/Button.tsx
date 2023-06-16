@@ -7,6 +7,7 @@ interface ButtonProps {
   type: 'button' | 'submit';
   children: React.ReactNode | string;
   variant?: 'contained' | 'outlined';
+  disabled?: boolean;
   onClick?: () => void;
 }
 

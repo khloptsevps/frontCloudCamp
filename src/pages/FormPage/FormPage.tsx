@@ -17,12 +17,11 @@ import {
 
 import { Button } from 'components/ui';
 
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { useAppDispatch, useAppSelector, useFormData } from 'redux/hooks';
 import {
   stepOneForm,
   stepTwoForm,
   stepThreeForm,
-  selectForm,
   setAllFieldValues,
 } from 'redux/formSlice/formSlice';
 import {
@@ -67,6 +66,7 @@ const FormPage = () => {
   const dispatch = useAppDispatch();
 
   const {
+    form,
     phone,
     email,
     nickname,
@@ -77,7 +77,7 @@ const FormPage = () => {
     checkboxes,
     radioOption,
     aboutField,
-  } = useAppSelector(selectForm);
+  } = useFormData();
 
   const { type, isOpened } = useAppSelector(selectModal);
 
@@ -187,12 +187,14 @@ const FormPage = () => {
                     type="button"
                     onClick={backButtonHandler(values)}
                     variant="outlined"
+                    disabled={form.status !== 'filling'}
                   >
                     Назад
                   </Button>
                   <Button
                     id={step === 3 ? '"button-send"' : '"button-next"'}
                     type="submit"
+                    disabled={form.status !== 'filling'}
                   >
                     {step === 3 ? <span>Отправить</span> : <span>Вперед</span>}
                   </Button>

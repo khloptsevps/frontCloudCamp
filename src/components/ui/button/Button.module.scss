@@ -16,6 +16,19 @@
   &:active {
     background-color: #5558fa;
   }
+  &:disabled {
+    cursor: default;
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: #fff;
+    &:hover,
+    :active {
+      color: #fff;
+    }
+    & * > {
+      color: #fff;
+    }
+  }
 }
 
 .outlined {
@@ -38,6 +51,19 @@
     color: #5558fa;
     & > * {
       color: #5558fa;
+    }
+  }
+  &:disabled {
+    cursor: default;
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: #fff;
+    &:hover,
+    :active {
+      color: #fff;
+    }
+    & * > {
+      color: #fff;
     }
   }
 }

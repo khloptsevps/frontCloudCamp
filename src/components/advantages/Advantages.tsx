@@ -4,6 +4,7 @@ import { Button, TextInput } from 'components/ui';
 import { DeleteButtonIcon } from 'components/icons';
 
 import styles from './Advantages.module.scss';
+import { useFormData } from 'redux/hooks';
 
 interface AdvantagesProps {
   name: string;
@@ -11,6 +12,7 @@ interface AdvantagesProps {
 }
 
 const Advantages = ({ name }: AdvantagesProps) => {
+  const formData = useFormData();
   return (
     <FieldArray name={name}>
       {(fieldArrayProps) => {
@@ -28,9 +30,12 @@ const Advantages = ({ name }: AdvantagesProps) => {
                     type="text"
                     placeholder="Paceholder"
                     counter
+                    disabled={formData.form.status !== 'filling'}
                   >
                     <button
+                      disabled={formData.form.status !== 'filling'}
                       className={styles.deleteButotn}
+                      type="button"
                       onClick={() => remove(index)}
                     >
                       {<DeleteButtonIcon />}
@@ -44,6 +49,7 @@ const Advantages = ({ name }: AdvantagesProps) => {
                 id="button add"
                 type="button"
                 variant="outlined"
+                disabled={formData.form.status !== 'filling'}
                 onClick={() => push('')}
               >
                 +
