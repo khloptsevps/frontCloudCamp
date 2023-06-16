@@ -1,7 +1,7 @@
 import ModalSuccess from './modalSuccess/ModalSuccess';
 import ModalError from './modalError/ModalError';
 
-type Modals = 'success' | 'error';
+type Modals = 'success' | 'error' | null;
 
 export const renderModal = (type: Modals, onClose: () => void) => {
   switch (type) {
