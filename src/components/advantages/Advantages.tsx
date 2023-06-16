@@ -27,6 +27,7 @@ const Advantages = ({ name }: AdvantagesProps) => {
                     id={`field-advantages-${index}`}
                     type="text"
                     placeholder="Paceholder"
+                    counter
                   >
                     <button
                       className={styles.deleteButotn}
