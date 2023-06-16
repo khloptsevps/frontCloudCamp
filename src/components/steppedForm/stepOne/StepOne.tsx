@@ -15,7 +15,6 @@ const StepOne = () => {
 
   const { form } = useFormData();
 
-  console.log(form);
   return (
     <>
       <div className={styles.inputGroup}>
