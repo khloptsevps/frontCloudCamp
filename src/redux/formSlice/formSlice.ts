@@ -5,6 +5,7 @@ import {
   FormStepTwo,
   FormStepThree,
   FormState,
+  FormDataFields,
 } from '@types';
 import { RootState } from 'redux/store';
 
@@ -15,7 +16,11 @@ interface State extends FormState {
   };
 }
 
-const initialState: FormState = {
+const initialState: State = {
+  form: {
+    status: 'filling',
+    error: '',
+  },
   phone: '',
   email: '',
   nickname: '',
@@ -48,11 +53,20 @@ export const formSlice = createSlice({
       const newState = { ...state, ...payload };
       return newState;
     },
+    setAllFieldValues: (state, { payload }: PayloadAction<FormDataFields>) => {
+      const newState = { ...state, ...payload };
+      return newState;
+    },
   },
 });
 
-export const { aboutForm, stepOneForm, stepTwoForm, stepThreeForm } =
-  formSlice.actions;
+export const {
+  aboutForm,
+  stepOneForm,
+  stepTwoForm,
+  stepThreeForm,
+  setAllFieldValues,
+} = formSlice.actions;
 
 export const selectForm = (state: RootState) => state.formReducer;
 
