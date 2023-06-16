@@ -1,6 +1,7 @@
 import { TextInput, SelectInput } from 'components/ui';
 
 import styles from './StepOne.module.scss';
+import { useFormData } from 'redux/hooks';
 
 const StepOne = () => {
   enum Sex {
@@ -12,10 +13,14 @@ const StepOne = () => {
     return { value: key, label: key };
   });
 
+  const { form } = useFormData();
+
+  console.log(form);
   return (
     <>
       <div className={styles.inputGroup}>
         <TextInput
+          disabled={form.status !== 'filling'}
           label="Nickname"
           name="nickname"
           placeholder="Placeholder"
@@ -25,6 +30,7 @@ const StepOne = () => {
         />
 
         <TextInput
+          disabled={form.status !== 'filling'}
           label="Name"
           name="name"
           placeholder="Placeholder"
@@ -34,6 +40,7 @@ const StepOne = () => {
         />
 
         <TextInput
+          disabled={form.status !== 'filling'}
           label="Sername"
           name="sername"
           placeholder="Placeholder"
@@ -42,7 +49,11 @@ const StepOne = () => {
           counter
         />
 
-        <SelectInput name="sex" options={options} />
+        <SelectInput
+          disabled={form.status !== 'filling'}
+          name="sex"
+          options={options}
+        />
       </div>
     </>
   );

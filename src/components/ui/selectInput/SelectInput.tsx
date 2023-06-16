@@ -9,9 +9,15 @@ type Option = {
 interface SelectInputProps {
   name: string;
   options: Option[];
+  disabled?: boolean;
 }
 
-const SelectInput = ({ name, options, ...props }: SelectInputProps) => {
+const SelectInput = ({
+  name,
+  options,
+  disabled,
+  ...props
+}: SelectInputProps) => {
   const [field, meta] = useField(name);
   const { setFieldValue } = useFormikContext();
 
@@ -23,6 +29,7 @@ const SelectInput = ({ name, options, ...props }: SelectInputProps) => {
         <span>Sex</span>
       </div>
       <Select
+        isDisabled={disabled}
         inputId="field-sex"
         options={options}
         placeholder="Не выбрано"
