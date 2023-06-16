@@ -44,7 +44,15 @@ const formValidation = Yup.object({
     .max(50, 'Не больше 50-ти символов')
     .matches(/^[A-Za-z]*$/, 'Недопустимые символы'),
   sex: Yup.string().required('Обязательное поле'),
-  aboutField: Yup.string().max(250, 'Не больше 250-ти символов'),
+  aboutField: Yup.string().test(
+    'customValidation',
+    'Не более 200 символов',
+    (value) => {
+      if (value) return value.replace(/ /g, '').length <= 200;
+      return true;
+    },
+  ),
+  advantages: Yup.array().of(Yup.string().max(20, 'Не больше 20-ти символов')),
 });
 
 // TODO: доделать валидацию
