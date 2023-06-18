@@ -17,18 +17,16 @@ import {
 
 import { Button } from 'components/ui';
 
-import { useAppDispatch, useAppSelector, useFormData } from 'redux/hooks';
+import { useAppDispatch, useFormData } from 'redux/hooks';
 import {
   stepOneForm,
   stepTwoForm,
   stepThreeForm,
   setAllFieldValues,
+  postFormData,
+  setFormStatusFilling,
+  clearStore,
 } from 'redux/formSlice/formSlice';
-import {
-  selectModal,
-  openModal,
-  closeModal,
-} from 'redux/modalSlice/modalSlice';
 
 import { prepareFormData } from 'utils';
 
@@ -36,18 +34,16 @@ import styles from './FormPage.module.scss';
 
 const formValidation = Yup.object({
   nickname: Yup.string()
-    .required('Обязательное поле')
     .max(30, 'Не больше 30-ти символов')
     .matches(/^[A-Za-z]+[0-9]*$/, 'Недопустимые символы'),
   name: Yup.string()
-    .required('Обязательное поле')
     .max(50, 'Не больше 50-ти символов')
     .matches(/^[A-Za-z]*$/, 'Недопустимые символы'),
   sername: Yup.string()
-    .required('Обязательное поле')
+
     .max(50, 'Не больше 50-ти символов')
     .matches(/^[A-Za-z]*$/, 'Недопустимые символы'),
-  sex: Yup.string().required('Обязательное поле'),
+  // sex: Yup.string().required('Обязательное поле'),
   aboutField: Yup.string().test(
     'customValidation',
     'Не более 200 символов',
@@ -58,8 +54,6 @@ const formValidation = Yup.object({
   ),
   advantages: Yup.array().of(Yup.string().max(20, 'Не больше 20-ти символов')),
 });
-
-// TODO: доделать валидацию
 
 const FormPage = () => {
   const navigate = useNavigate();
@@ -78,8 +72,6 @@ const FormPage = () => {
     radioOption,
     aboutField,
   } = useFormData();
-
-  const { type, isOpened } = useAppSelector(selectModal);
 
   const initAdvantages = advantages.length > 0 ? advantages : ['', '', ''];
   const initCheckboxes =
@@ -114,11 +106,11 @@ const FormPage = () => {
   ];
 
   const modalCloseHandler = () => {
-    dispatch(closeModal());
-  };
-
-  const modalOpenHandler = () => {
-    dispatch(openModal({ type: 'error' }));
+    dispatch(setFormStatusFilling());
+    if (form.status === 'success') {
+      dispatch(clearStore());
+      navigate(pageRoutes.main());
+    }
   };
 
   // TODO: Сделать через свич?
@@ -139,9 +131,8 @@ const FormPage = () => {
       dispatch(stepThreeForm({ aboutField }));
       const data = prepareFormData({ phone, email, ...formData });
       console.log(data);
-      modalOpenHandler();
       actions.setSubmitting(false);
-
+      dispatch(postFormData(data));
       return;
     }
     setStep((prev) => {
@@ -168,7 +159,11 @@ const FormPage = () => {
   return (
     <div className={styles.root}>
       <Stepper steps={steps} activeStep={step} />
-      <Modal isOpen={isOpened} type={type} onClose={modalCloseHandler} />
+      <Modal
+        isOpen={form.status === 'success' || form.status === 'error'}
+        type={form.status}
+        onClose={modalCloseHandler}
+      />
       <div className="form">
         <Formik
           initialValues={initValues}
