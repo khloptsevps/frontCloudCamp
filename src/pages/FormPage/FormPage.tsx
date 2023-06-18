@@ -113,7 +113,6 @@ const FormPage = () => {
     }
   };
 
-  // TODO: Сделать через свич?
   const formHandler = async (
     formData: FormDataFields,
     actions: FormikHelpers<FormDataFields>,
@@ -130,7 +129,6 @@ const FormPage = () => {
       const { aboutField } = formData;
       dispatch(stepThreeForm({ aboutField }));
       const data = prepareFormData({ phone, email, ...formData });
-      console.log(data);
       actions.setSubmitting(false);
       dispatch(postFormData(data));
       return;
