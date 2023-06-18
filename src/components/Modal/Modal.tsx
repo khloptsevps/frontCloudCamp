@@ -3,7 +3,7 @@ import styles from './Modal.module.scss';
 import { renderModal } from './renderModal';
 
 interface ModalProps {
-  type: 'success' | 'error' | null;
+  type: string;
   isOpen: boolean;
   onClose: () => void;
 }
