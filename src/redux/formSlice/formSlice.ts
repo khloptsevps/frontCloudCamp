@@ -16,27 +16,37 @@ interface State extends FormState {
   form: {
     status: 'filling' | 'sending' | 'success' | 'error';
     message: string;
-    error: string;
   };
 }
 
-export const postFormData = createAsyncThunk(
-  '@@post-form-data',
-  async (data: PreparedFormData, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(APIRoutes.main(), data);
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error);
+type PostFormResponse = {
+  status: 'success';
+  message: string;
+};
+
+export const postFormData = createAsyncThunk<
+  PostFormResponse,
+  PreparedFormData,
+  {
+    rejectValue: string;
+  }
+>('@@post-form-data', async (data, { rejectWithValue }) => {
+  try {
+    const response = await axios.post<PostFormResponse>(APIRoutes.main(), data);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return rejectWithValue('Ошибка сети');
+    } else {
+      return rejectWithValue('Не известная ошибка');
     }
-  },
-);
+  }
+});
 
 const initialState: State = {
   form: {
     status: 'filling',
     message: '',
-    error: '',
   },
   phone: '',
   email: '',
@@ -86,13 +96,13 @@ export const formSlice = createSlice({
       .addCase(postFormData.pending, (state) => {
         state.form.status = 'sending';
       })
-      .addCase(postFormData.fulfilled, (state, action) => {
-        state.form.status = action.payload.status;
-        state.form.message = action.payload.message;
+      .addCase(postFormData.fulfilled, (state, { payload }) => {
+        state.form.status = payload.status;
+        state.form.message = payload.message;
       })
-      .addCase(postFormData.rejected, (state) => {
+      .addCase(postFormData.rejected, (state, { payload }) => {
         state.form.status = 'error';
-        state.form.error = 'Ошибка';
+        state.form.message = payload ? payload : 'Ошибка';
       });
   },
 });
