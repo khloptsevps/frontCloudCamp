@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
   AboutForm,
   FormStepOne,
@@ -6,21 +6,36 @@ import {
   FormStepThree,
   FormState,
   FormDataFields,
+  PreparedFormData,
 } from '@types';
+import axios from 'axios';
 import { RootState } from 'redux/store';
+import { APIRoutes } from 'routes';
 
 interface State extends FormState {
   form: {
     status: 'filling' | 'sending' | 'success' | 'error';
-    massage: '';
-    error: '';
+    message: string;
+    error: string;
   };
 }
+
+export const postFormData = createAsyncThunk(
+  '@@post-form-data',
+  async (data: PreparedFormData, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(APIRoutes.main(), data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
 
 const initialState: State = {
   form: {
     status: 'filling',
-    massage: '',
+    message: '',
     error: '',
   },
   phone: '',
@@ -59,6 +74,26 @@ export const formSlice = createSlice({
       const newState = { ...state, ...payload };
       return newState;
     },
+    setFormStatusFilling: (state) => {
+      state.form.status = 'filling';
+    },
+    clearStore: () => {
+      return initialState;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(postFormData.pending, (state) => {
+        state.form.status = 'sending';
+      })
+      .addCase(postFormData.fulfilled, (state, action) => {
+        state.form.status = action.payload.status;
+        state.form.message = action.payload.message;
+      })
+      .addCase(postFormData.rejected, (state) => {
+        state.form.status = 'error';
+        state.form.error = 'Ошибка';
+      });
   },
 });
 
@@ -68,6 +103,8 @@ export const {
   stepTwoForm,
   stepThreeForm,
   setAllFieldValues,
+  setFormStatusFilling,
+  clearStore,
 } = formSlice.actions;
 
 export const selectForm = (state: RootState) => state.formReducer;
