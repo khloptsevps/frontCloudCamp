@@ -2,16 +2,18 @@ import { Button } from 'components/ui';
 import { SuccessIcon } from 'components/icons';
 
 import styles from './ModalSuccess.module.scss';
+import { useFormData } from 'redux/hooks';
 
 interface ModalSuccessProps {
   onClose: () => void;
 }
 
 const ModalSuccess = ({ onClose }: ModalSuccessProps) => {
+  const { form } = useFormData();
   return (
     <>
       <div className={styles.title}>
-        <h2>Форма успешно отправлена</h2>
+        <h2>{form.message}</h2>
       </div>
       <div className={styles.image}>
         <SuccessIcon />
